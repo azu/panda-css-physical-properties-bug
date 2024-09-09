@@ -1,4 +1,4 @@
-# `@pandacss/no-invalid-nesting` false positive
+# `@pandacss/no-physical-properties` false positive
 
 ## usage
 
@@ -6,38 +6,69 @@
 pnpm install
 pnpm run lint
 ./src/app/Heading.tsx
-23:13  Error: Invalid style nesting. Nested styles must contain the `&` character.  @pandacss/no-invalid-nesting
+51:7  Error: Use logical property of `left` instead. Prefer `insetInlineStart`  @pandacss/no-physical-properties
+60:7  Error: Use logical property of `right` instead. Prefer `insetInlineEnd`  @pandacss/no-physical-properties
+
 ```
 
 ```tsx
 const heading = cva({
-    base: {
+  base: {
+    fontWeight: "strong",
+    lineHeight: "m",
+  },
+  variants: {
+    size: {
+      "2xl": {
+        fontSize: "2xl",
+      },
+      xl: {
+        fontSize: "xl",
+      },
+      l: {
+        fontSize: "l",
+      },
+      m: {
+        fontSize: "m",
+      },
+      s: {
+        fontSize: "s",
+      },
+      xs: {
+        fontSize: "xs",
+      },
+    },
+    align: {
+      // false positive lint error is here
+      left: {
+        textAlign: "left",
+        textWrap: "wrap",
+      },
+      center: {
+        textAlign: "center",
+        textWrap: "balance",
+        wordBreak: "[auto-phrase]",
+      },
+      // false positive lint error is here
+      right: {
+        textAlign: "right",
+        textWrap: "wrap",
+      },
+    },
+    weight: {
+      strong: {
         fontWeight: "strong",
-        lineHeight: "m",
+      },
+      regular: {
+        fontWeight: "regular",
+      },
     },
-    variants: {
-        size: {
-            "2xl": {
-                fontSize: "2xl",
-            },
-            l: {
-                fontSize: "l",
-            },
-            m: {
-                fontSize: "m",
-            },
-            s: {
-                fontSize: "s",
-            },
-            "2xs": { 
-            // ^ Error: Invalid style nesting. Nested styles must contain the `&` character.  @pandacss/no-invalid-nesting     
-                fontSize: "2xs",
-            },
-        },
-    },
-    defaultVariants: {
-        size: "2xl",
-    },
+  },
+  defaultVariants: {
+    size: "2xl",
+    align: "left",
+    weight: "strong",
+  },
 });
 ```
 
